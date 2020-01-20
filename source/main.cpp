@@ -21,6 +21,7 @@ const char* fragmentShaderSource = "#version 440 core\n"
 
 /* declarations or whatever */
 void processInput(GLFWwindow* window);
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 int main(void)
 {
@@ -32,6 +33,10 @@ int main(void)
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     if (!window)
     {
         glfwTerminate();
@@ -40,6 +45,7 @@ int main(void)
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     // load in our GLAD
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -47,27 +53,12 @@ int main(void)
         return -1;
     }
 
-<<<<<<< HEAD
     /*
     *
     * Defining and setting up our shader objects and program
     *
     */
-=======
-    // current cube code
-    float vertices[] = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-     0.0f,  0.5f, 0.0f
-    };
 
-    unsigned int VBO; // create a vertex buffer object
-    glGenBuffers(1, &VBO); // generate a unique buffer id for VBO
-    glBindBuffer(GL_ARRAY_BUFFER, VBO); // bind it to the array buffer
-    // bind vertex data to VBO currently bound to array buffer. static draw means it probably won't change much (our data)
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
->>>>>>> 8edce2690df6818ecb52a591a7aad32b9c557117
     // define our vertex shader
     unsigned int vertexShader; // to store id of vertex shader
     vertexShader = glCreateShader(GL_VERTEX_SHADER); // create vertex shader and assign id to vertexShader
@@ -103,7 +94,6 @@ int main(void)
         printf("ERROR::SHADER::PROGRAM::COMPILATIOIN::FALED %s\n", infoLog); // print error log
     }
 
-<<<<<<< HEAD
     glDeleteShader(vertexShader); // delete old shaders since they are now set and no longer needed
     glDeleteShader(fragmentShader); // same
 
@@ -113,43 +103,37 @@ int main(void)
     *
     */
     
-    // current cube code
     float vertices[] = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-     0.0f,  0.5f, 0.0f
+        // first triangle
+        -0.9f, -0.5f, 0.0f,  // left 
+        -0.0f, -0.5f, 0.0f,  // right
+        -0.45f, 0.5f, 0.0f,  // top 
     };
 
-    // Vertex Buffer Object
-    unsigned int VBO; // create a vertex buffer object
-    glGenBuffers(1, &VBO); // generate a unique buffer id for VBO
+    float vertices2[] = {
+        0.0f, -0.5f, 0.0f,
+        0.9f, -0.5f, 0.0f,
+        0.45f, 0.5f, 0.0f
+    };
 
-    // Vertex Array Object
-    unsigned int VAO; // id 
-    glGenVertexArrays(1, &VAO); // generate the object
-
-    // ..:: Initialization code (done once (unless your object frequently changes)) :: ..
-    // 1. bind Vertex Array Object
-    glBindVertexArray(VAO);
-    // 2. copy our vertices array in a buffer for OpenGL to use
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    unsigned int VBOs[2], VAOs[2];
+    glGenVertexArrays(2, VAOs); // we can also generate multiple VAOs or buffers at the same time
+    glGenBuffers(2, VBOs);
+    // first triangle setup
+    // --------------------
+    glBindVertexArray(VAOs[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    // 3. then set our vertex attributes pointers
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);	// Vertex attributes stay the same
     glEnableVertexAttribArray(0);
-    // 4. call a function to render a triangle now
-    glUseProgram(shaderProgram);
-    glBindVertexArray(VAO);
-    
-=======
-    glUseProgram(shaderProgram); // set gl to use the shader program
-
-    glDeleteShader(vertexShader); // delete old shaders since they are now set and no longer needed
-    glDeleteShader(fragmentShader); // same
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    // glBindVertexArray(0); // no need to unbind at all as we directly bind a different VAO the next few lines
+    // second triangle setup
+    // ---------------------
+    glBindVertexArray(VAOs[1]);	// note that we bind to a different VAO now
+    glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);	// and a different VBO
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0); // because the vertex data is tightly packed we can also specify 0 as the vertex attribute's stride to let OpenGL figure it out
     glEnableVertexAttribArray(0);
->>>>>>> 8edce2690df6818ecb52a591a7aad32b9c557117
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -158,13 +142,17 @@ int main(void)
         processInput(window); 
         
         /* Render here */
+        glUseProgram(shaderProgram);
+
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-<<<<<<< HEAD
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-=======
->>>>>>> 8edce2690df6818ecb52a591a7aad32b9c557117
-        
+
+        for (int i = 0; i < sizeof(VAOs); i++) {
+            glBindVertexArray(VAOs[i]);
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+        }
+
+
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
@@ -176,6 +164,16 @@ int main(void)
     return 0;
 }
 
+// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+// ---------------------------------------------------------------------------------------------
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    // make sure the viewport matches the new window dimensions; note that width and 
+    // height will be significantly larger than specified on retina displays.
+    glViewport(0, 0, width, height);
+}
+
+// Process key input
 void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
