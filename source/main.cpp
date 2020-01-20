@@ -1,3 +1,4 @@
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <vector>
@@ -21,6 +22,16 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
+    // current cube code
+    float vertices[] = {
+    -0.5f, -0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f,
+     0.0f,  0.5f, 0.0f
+    };
+
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -41,12 +52,12 @@ int main(void)
 
 // A data structure to hold the x, y, and z of a vertex in 3D space
 struct Vertex {
-    float x, y, z;
+    float coordinates [3];
 
     Vertex(float x_in, float y_in, float z_in) {
-        x = x_in;
-        y = y_in;
-        z = z_in;
+        coordinates[0] = x_in;
+        coordinates[1] = y_in;
+        coordinates[2] = z_in;
     }
 };
 
@@ -68,7 +79,7 @@ struct VertexArray {
 // a data scructure that holds a vertex array of the points of a cube
 struct Cube {
     VertexArray vertex_array;
-    Cube() {
-        
+    Cube(float x=0.0f, float y=0.0f, float z=0.0f) {
+        Vertex origin = Vertex(x, y, z);
     }
 };
