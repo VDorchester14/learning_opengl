@@ -123,7 +123,7 @@ One final step is to install glad. You can get a more in depth explanation of wh
 5. Click Generate
 6. Click `glad.zip` to download the zip, and then extract it
 7. Open the extracted folder, go in the include folder, and copy the two folders in the include folder into your projects include folder. Your project include folder should now have `GLFW`, `glad`, and `KHR`.
-8. In the extracted folder, copy `glad.c` into the same directory as your main.cpp file
+8. In the extracted folder, copy `glad.c` into the same directory as your `main.cpp` file
 9. In the Visual Studio file inspector, right click your `source` folder, then click `Include in Project`. Navigate to the glad.c file and add it.
 10. Make sure you `#include <glad/glad.h>` ABOVE the `#include <GLFW/glfw3.h>`
 
