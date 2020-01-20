@@ -1,6 +1,6 @@
 # Setting up C++ and OpenGL
 
-This is a project where I'm going to learn how to set up OpenGL with C++. Hopefully this will serve as a future reference for me and anyone who is interested in learning to do this.
+This is a project where I'm going to learn how to set up OpenGL with C++. Hopefully this will serve as a future reference for me and anyone who is interested in learning to do this. In this repo you will fin all of my opengl code. You can clone it, but you will still have to follow the instructions to set up GLFW and Visual Studio.
 
 ## Visual Studio
 
