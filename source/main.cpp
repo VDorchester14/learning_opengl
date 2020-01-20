@@ -47,19 +47,11 @@ int main(void)
         return -1;
     }
 
-    // current cube code
-    float vertices[] = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-     0.0f,  0.5f, 0.0f
-    };
-
-    unsigned int VBO; // create a vertex buffer object
-    glGenBuffers(1, &VBO); // generate a unique buffer id for VBO
-    glBindBuffer(GL_ARRAY_BUFFER, VBO); // bind it to the array buffer
-    // bind vertex data to VBO currently bound to array buffer. static draw means it probably won't change much (our data)
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
+    /*
+    *
+    * Defining and setting up our shader objects and program
+    *
+    */
     // define our vertex shader
     unsigned int vertexShader; // to store id of vertex shader
     vertexShader = glCreateShader(GL_VERTEX_SHADER); // create vertex shader and assign id to vertexShader
@@ -95,13 +87,43 @@ int main(void)
         printf("ERROR::SHADER::PROGRAM::COMPILATIOIN::FALED %s\n", infoLog); // print error log
     }
 
-    glUseProgram(shaderProgram); // set gl to use the shader program
-
     glDeleteShader(vertexShader); // delete old shaders since they are now set and no longer needed
     glDeleteShader(fragmentShader); // same
 
+    /* 
+    *
+    * General steps for drawing
+    *
+    */
+    
+    // current cube code
+    float vertices[] = {
+    -0.5f, -0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f,
+     0.0f,  0.5f, 0.0f
+    };
+
+    // Vertex Buffer Object
+    unsigned int VBO; // create a vertex buffer object
+    glGenBuffers(1, &VBO); // generate a unique buffer id for VBO
+
+    // Vertex Array Object
+    unsigned int VAO; // id 
+    glGenVertexArrays(1, &VAO); // generate the object
+
+    // ..:: Initialization code (done once (unless your object frequently changes)) :: ..
+    // 1. bind Vertex Array Object
+    glBindVertexArray(VAO);
+    // 2. copy our vertices array in a buffer for OpenGL to use
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    // 3. then set our vertex attributes pointers
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    // 4. call a function to render a triangle now
+    glUseProgram(shaderProgram);
+    glBindVertexArray(VAO);
+    
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -112,6 +134,7 @@ int main(void)
         /* Render here */
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
         
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
