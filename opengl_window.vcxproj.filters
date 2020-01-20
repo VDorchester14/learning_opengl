@@ -24,9 +24,15 @@
     <ClCompile Include="source\primitives\shapes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Shaders\Shaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\primitives\shapes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Shaders\Shaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

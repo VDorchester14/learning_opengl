@@ -151,9 +151,11 @@
     <ClCompile Include="source\glad.c" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\primitives\shapes.cpp" />
+    <ClCompile Include="source\Shaders\Shaders.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\primitives\shapes.h" />
+    <ClInclude Include="source\Shaders\Shaders.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
