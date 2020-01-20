@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <vector>
+#include "primitives/shapes.h"
+
 
 // source code for our vertex shader
 const char* vertexShaderSource = "#version 440 core\n"
@@ -22,7 +24,7 @@ const char* fragmentShaderSource = "#version 440 core\n"
 /* declarations or whatever */
 void processInput(GLFWwindow* window);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
+void drawTri(float x=0.0f, float y=0.0f, float z=0.0f);
 int main(void)
 {
     GLFWwindow* window;
@@ -97,44 +99,6 @@ int main(void)
     glDeleteShader(vertexShader); // delete old shaders since they are now set and no longer needed
     glDeleteShader(fragmentShader); // same
 
-    /* 
-    *
-    * General steps for drawing
-    *
-    */
-    
-    float vertices[] = {
-        // first triangle
-        -0.9f, -0.5f, 0.0f,  // left 
-        -0.0f, -0.5f, 0.0f,  // right
-        -0.45f, 0.5f, 0.0f,  // top 
-    };
-
-    float vertices2[] = {
-        0.0f, -0.5f, 0.0f,
-        0.9f, -0.5f, 0.0f,
-        0.45f, 0.5f, 0.0f
-    };
-
-    unsigned int VBOs[2], VAOs[2];
-    glGenVertexArrays(2, VAOs); // we can also generate multiple VAOs or buffers at the same time
-    glGenBuffers(2, VBOs);
-    // first triangle setup
-    // --------------------
-    glBindVertexArray(VAOs[0]);
-    glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);	// Vertex attributes stay the same
-    glEnableVertexAttribArray(0);
-    // glBindVertexArray(0); // no need to unbind at all as we directly bind a different VAO the next few lines
-    // second triangle setup
-    // ---------------------
-    glBindVertexArray(VAOs[1]);	// note that we bind to a different VAO now
-    glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);	// and a different VBO
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0); // because the vertex data is tightly packed we can also specify 0 as the vertex attribute's stride to let OpenGL figure it out
-    glEnableVertexAttribArray(0);
-
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -147,10 +111,8 @@ int main(void)
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        for (int i = 0; i < sizeof(VAOs); i++) {
-            glBindVertexArray(VAOs[i]);
-            glDrawArrays(GL_TRIANGLES, 0, 3);
-        }
+        DrawTriangle(-0.5f, 0.0f, 0.0f);
+        DrawTriangle(0.5f, 0.0f, 0.0f);
 
 
         /* Swap front and back buffers */
@@ -162,6 +124,28 @@ int main(void)
 
     glfwTerminate();
     return 0;
+}
+
+// draw a triangle
+void drawTri(float x, float y, float z) {
+    float vertices[] = {
+    x + -0.5f, y + -0.5f, z + 0.0f,
+    x +  0.5f, y + -0.5f, z + 0.0f,
+    x +  0.0f, y +  0.5f, z + 0.0f
+    };
+
+    unsigned int VBO, VAO;
+    glGenVertexArrays(1, &VAO); // we can also generate multiple VAOs or buffers at the same time
+    glGenBuffers(1, &VBO);
+    // first triangle setup
+    // --------------------
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);	// Vertex attributes stay the same
+    glEnableVertexAttribArray(0);
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -179,37 +163,3 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
-
-// A data structure to hold the x, y, and z of a vertex in 3D space
-struct Vertex {
-    float coordinates [3];
-
-    Vertex(float x_in, float y_in, float z_in) {
-        coordinates[0] = x_in;
-        coordinates[1] = y_in;
-        coordinates[2] = z_in;
-    }
-};
-
-// A data structure to hold a vector of vertices
-struct VertexArray {
-    std::vector<Vertex> vertices;
-
-    VertexArray() {
-        // Constructor
-    }
-    ~VertexArray() {
-        // Destructor
-    }
-    void add_vertex(Vertex v) {
-        vertices.push_back(v);
-    }
-};
-
-// a data scructure that holds a vertex array of the points of a cube
-struct Cube {
-    VertexArray vertex_array;
-    Cube(float x=0.0f, float y=0.0f, float z=0.0f) {
-        Vertex origin = Vertex(x, y, z);
-    }
-};

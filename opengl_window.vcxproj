@@ -150,6 +150,10 @@
   <ItemGroup>
     <ClCompile Include="source\glad.c" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\primitives\shapes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\primitives\shapes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
