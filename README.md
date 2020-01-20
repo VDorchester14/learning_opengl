@@ -111,4 +111,9 @@ You will probably notice that most of the functions are marked as errors, and pr
 - Apply your changes, and return to the main.cpp file.
 - Hit ctrl+shift+b to build, then ctrl+F5 to run. You should see a window appear that has hello world as the window title.
 
-Congratulations! You now have a window.
+Congratulations! You now have a window. It is important to note that you actually don't have to install anything for OpenGL because graphics drivers come with OpenGL already. This is why we only have to include the GLFW files.
+
+## Further Reading
+
+- [GLFW Documentation](https://www.glfw.org/docs/latest/quick.html) <- Good source for learning about GLFW
+- [LearnOpenGL](https://learnopengl.com/Introduction) <- A good source for learning opengl. This is what I will be following.
