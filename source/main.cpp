@@ -1,4 +1,6 @@
 #include <GLFW/glfw3.h>
+#include <stdlib.h>
+#include <vector>
 
 int main(void)
 {
@@ -37,6 +39,36 @@ int main(void)
     return 0;
 }
 
-void draw_cube() {
-    return;
-}
+// A data structure to hold the x, y, and z of a vertex in 3D space
+struct Vertex {
+    float x, y, z;
+
+    Vertex(float x_in, float y_in, float z_in) {
+        x = x_in;
+        y = y_in;
+        z = z_in;
+    }
+};
+
+// A data structure to hold a vector of vertices
+struct VertexArray {
+    std::vector<Vertex> vertices;
+
+    VertexArray() {
+        // Constructor
+    }
+    ~VertexArray() {
+        // Destructor
+    }
+    void add_vertex(Vertex v) {
+        vertices.push_back(v);
+    }
+};
+
+// a data scructure that holds a vertex array of the points of a cube
+struct Cube {
+    VertexArray vertex_array;
+    Cube() {
+        
+    }
+};
