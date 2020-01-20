@@ -1,6 +1,2 @@
 ﻿  main.cpp
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-main.obj : error LNK2001: unresolved external symbol _glad_glClear
-main.obj : error LNK2001: unresolved external symbol _glad_glClearColor
-main.obj : error LNK2001: unresolved external symbol _glad_glGenBuffers
-C:\Users\vaild\Desktop\CS\projects\VS\opengl_window\Debug\opengl_window.exe : fatal error LNK1120: 3 unresolved externals
+  opengl_window.vcxproj -> C:\Users\vaild\Desktop\CS\projects\VS\opengl_window\Debug\opengl_window.exe
