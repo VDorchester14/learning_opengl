@@ -29,9 +29,9 @@ You can find the download link [here](https://visualstudio.microsoft.com/vs/feat
 
 #### Installing GLFW
 
-[Here](https://www.glfw.org/download.html) is the link to download. It is important that you download the proper 32 or 64 bit version.
+[Here](https://www.glfw.org/download.html) is the link to download.
 
-- Press and hold the windows key and then hit the pause break key while the windows key is pressed. Next to system type, it will tell you if you have 32 or 64 bit.
+- Download the 32 bit binaries from this page.
 - On the download page, download the binaries that match your bit count. Extract this download somewhere you will remember.
 
 ## Creating an Empty Window Using GLFW and C++
@@ -42,5 +42,73 @@ I will be following [this](https://www.youtube.com/watch?v=AwVVt9Ht5Q8) tutorial
 - Select file, new project
 - Select Empty Project
 - Choose a project name and directory, and click Create
+
 Your project has now been created. On the right, you should see a tab with the title Solution Explorer. In this window, there is a button called show all files. you can see the tooltip if you mouse over it, and the image below shows the location of this button.
 ![Show all files option](./readme_files/solutions_explorer.png)
+
+- Click the show all files option.
+- Right click your project name in the solutions explorer, click add, new folder, and add a folder named source.
+- Open a file explorer window and navigate to your project directory where you see the source folder
+- Open a nother file explorer window and navigate to the GLFW extracted flder you created.
+- Copy the include and lib-vc2019 folders from the GLFW folder into the project folder at the same level as the source folder, but not in the source folder. This is getting the proper GLFW packages in to our project.
+- Now, back in VisualStudio, add a C++ file in the project inside the source folder named main.cpp
+- Copy and paste the following code into the main.cpp file. This code was taken from the GLFW website [here](https://www.glfw.org/documentation.html) and is basic code for opening an opengl window.
+
+```C++
+#include <GLFW/glfw3.h>
+
+int main(void)
+{
+    GLFWwindow* window;
+
+    /* Initialize the library */
+    if (!glfwInit())
+        return -1;
+
+    /* Create a windowed mode window and its OpenGL context */
+    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        return -1;
+    }
+
+    /* Make the window's context current */
+    glfwMakeContextCurrent(window);
+
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(window))
+    {
+        /* Render here */
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
+
+        /* Poll for and process events */
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+    return 0;
+}
+```
+
+#### Adding header file and includes from the GLFW Libraries
+You will probably notice that most of the functions are marked as errors, and project will not build. This is because, although the GLFW include folder and header files are in the project, they aren't actually known by the project itself, and Visual Studio does not know they exist. To fix this, we have to link the header files in our project.
+
+- Right click the project name in the solutions explorer and click properties.
+- Change configurations to all configurations
+- Under `Configuration Properties`, select `C/C++`, and then `General` 
+- Here, you can see `Additional Include Directories` option on the right. 
+- Add `$(ProjectDir)include` by manually typing it in, hitting enter, and clicking apply.
+- Finally, we have to link our lib folder.
+- Under `Configuration Properties` in this same window, now select the `Linker` and then `General` option.
+- Under `Additional Library Directories`, add `$(ProjectDir)lib-vc2019`
+- Finally, click the `Input` option under `Linker`
+- Delete everything in the `Additional Dependencies` option.
+- Now we will tell Visual Studio which libraries we will be using by adding `glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib`
+- Apply your changes, and return to the main.cpp file.
+- Hit ctrl+shift+b to build, then ctrl+F5 to run. You should see a window appear that has hello world as the window title.
+
+Congratulations! You now have a window.
