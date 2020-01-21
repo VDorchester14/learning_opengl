@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 
-void DrawTriangle(float x, float y, float z);
+void DrawTriangle(float x, float y, float z, float r, float g, float b);
 
 class Triangle {
 public:

@@ -2,9 +2,10 @@
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <vector>
+#include <Windows.h>
 
 #include "primitives/shapes.h"
-#include "Shaders/Shaders.h"
+#include "Shaders/Shader.h"
 
 /* declarations or whatever */
 void processInput(GLFWwindow* window);
@@ -41,22 +42,25 @@ int main(void)
         return -1;
     }
 
-    unsigned int shaderProgram = InitializeShaders();
+    //unsigned int shaderProgram = InitializeShaders();
+
+    Shader ourShader("./Shaders/shader.vert", "./Shaders/shader.frag");
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Process key input */
-        processInput(window); 
+        //processInput(window); 
         
         /* Render here */
-        glUseProgram(shaderProgram);
+        //ourShader.use();
+        //ourShader.setFloat("someUniform", 1.0f);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        DrawTriangle(-0.5f, 0.0f, 0.0f);
-        DrawTriangle(0.5f, 0.0f, 0.0f);
+        DrawTriangle(-0.5f, 0.0f, 0.0f, 1.0, 0.0, 0.0);
+        DrawTriangle(0.5f, 0.0f, 0.0f, 0.0, 1.0, 0.0);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -68,6 +72,7 @@ int main(void)
     glfwTerminate();
     return 0;
 }
+
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------

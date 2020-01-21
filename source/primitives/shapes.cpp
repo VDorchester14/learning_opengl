@@ -3,11 +3,11 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 
-void DrawTriangle(float x, float y, float z) {
+void DrawTriangle(float x, float y, float z, float r, float g, float b) {
     float vertices[] = {
-    x + -0.5f, y + -0.5f, z + 0.0f,
-    x + 0.5f, y + -0.5f, z + 0.0f,
-    x + 0.0f, y + 0.5f, z + 0.0f
+    x + -0.5f, y + -0.5f, z + 0.0f, r + 0.0f, g + 0.0f, b + 0.0f,
+    x + 0.5f, y + -0.5f, z + 0.0f,  r + 0.0f, g + 0.0f, b + 0.0f,
+    x + 0.0f, y + 0.5f, z + 0.0f,   r + 0.0f, g + 0.0f, b + 0.0f
     };
 
     unsigned int VBO, VAO;
@@ -18,8 +18,14 @@ void DrawTriangle(float x, float y, float z) {
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);	// Vertex attributes stay the same
+    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);	// Vertex attributes stay the same
+    //glEnableVertexAttribArray(0);
+    // position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    // color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     
