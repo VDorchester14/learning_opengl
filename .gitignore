@@ -1,2 +1,6 @@
 DEBUG
 DEBUG/
+*.suo
+opengl_window.vcxproj.user
+obj
+bin
