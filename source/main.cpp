@@ -44,7 +44,7 @@ int main(void)
 
     //unsigned int shaderProgram = InitializeShaders();
 
-    Shader ourShader("./Shaders/shader.vert", "./Shaders/shader.frag");
+    Shader ourShader("./source/Shaders/shader.vert", "./source/Shaders/shader.frag");
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))

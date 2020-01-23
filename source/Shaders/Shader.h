@@ -27,28 +27,21 @@ public:
         try
         {
             // open files
-            printf("0\n");
             vShaderFile.open(vertexPath);
-            printf("0.5\n");
             fShaderFile.open(fragmentPath);
-            printf("files opened\n");
             std::stringstream vShaderStream, fShaderStream;
-            printf("1\n");
 
             // read file's buffer contents into streams
             vShaderStream << vShaderFile.rdbuf();
             fShaderStream << fShaderFile.rdbuf();
-            printf("2\n");
 
             // close file handlers
             vShaderFile.close();
             fShaderFile.close();
-            printf("3\n");
 
             // convert stream into string
             vertexCode = vShaderStream.str();
             fragmentCode = fShaderStream.str();
-            printf("4\n");
         }
         catch (std::ifstream::failure e)
         {
