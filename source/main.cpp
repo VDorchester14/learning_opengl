@@ -53,8 +53,8 @@ int main(void)
         //processInput(window); 
         
         /* Render here */
-        //ourShader.use();
-        //ourShader.setFloat("someUniform", 1.0f);
+        ourShader.use();
+        ourShader.setFloat("someUniform", 1.0f);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
